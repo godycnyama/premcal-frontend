@@ -1,0 +1,16 @@
+<div>
+  <div style="text-align: center" *ngIf = "title">
+    <h3 matDialogTitle>{{title}}</h3>
+  </div>
+  
+  <mat-dialog-content>
+    <div style="text-align: center">
+      {{message}}
+    </div>
+  </mat-dialog-content>
+  <br>
+  <div style="text-align: center">
+      <button mat-raised-button color="primary" (click)="accept()">{{acceptButton}}</button>
+      <button mat-raised-button color="accent" matDialogClose (click)="cancel()">Cancel</button>
+  </div>  
+</div>

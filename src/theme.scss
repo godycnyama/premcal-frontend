@@ -1,0 +1,234 @@
+@import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+// Plus imports for other components in your app.
+
+// Custom typography
+$custom-typography: mat-typography-config(
+    $button: mat-typography-level(14px, 14px, 400)
+);
+$custom-toolbar-typography: mat-typography-config(
+    $title: mat-typography-level(20px, 32px, 400)
+);
+
+// Include the base styles for Angular Material core. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+@include mat-core($custom-typography);
+
+// Setting the toolbar to the proper spec weight
+@include mat-toolbar-typography($custom-toolbar-typography);
+
+// Include the core styles for Covalent
+@include covalent-core();
+
+// Include pre-bundled material-icons
+$mat-font-url: '../node_modules/@covalent/core/common/styles/font/';
+@include covalent-material-icons();
+// Alternative way to include material-icons
+// @import '../node_modules/@covalent/core/common/material-icons.css';
+
+// Include covalent utility classes
+@include covalent-utilities();
+
+// Include flex layout classes
+@include covalent-layout();
+
+// Include covalent color classes
+@include covalent-colors();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue.
+$my-custom-primary-color: (
+    50 : #e2e1e7,
+    100 : #b6b5c2,
+    200 : #86839a,
+    300 : #565172,
+    400 : #312c53,
+    500 : #0d0735,
+    600 : #0b0630,
+    700 : #090528,
+    800 : #070422,
+    900 : #030216,
+    A100 : #5656ff,
+    A200 : #2323ff,
+    A400 : #0000ef,
+    A700 : #0000d5,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #ffffff,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+$primary: mat-palette($my-custom-primary-color,900);
+$accent:  mat-palette($mat-orange, 800, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$warn:    mat-palette($mat-red, 600);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$theme: mat-light-theme($primary, $accent, $warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($theme);
+@include covalent-theme($theme);
+
+// Active icon color in list nav
+mat-nav-list {
+    [mat-list-item].active {
+        mat-icon[matListAvatar] {
+            background-color: mat-color($accent);
+            color: mat-color($accent, default-contrast)
+        }
+        mat-icon[matListIcon] {
+            color: mat-color($accent);
+        }
+    }
+}
+
+// Custom theme examples
+.white-orange {
+    $primary2: mat-palette($mat-grey, 50);
+    $accent2:  mat-palette($mat-orange, 800);
+    $warn2:    mat-palette($mat-red, 600);
+
+    $white-orange: mat-light-theme($primary2, $accent2, $warn2);
+
+    @include angular-material-theme($white-orange);
+    @include covalent-theme($white-orange);
+}
+.dark-grey-blue {
+    $primary3: mat-palette($mat-blue-grey, 800);
+    $accent3:  mat-palette($mat-teal, 500);
+    $warn3:    mat-palette($mat-red, 600);
+
+    $dark-grey-blue: mat-dark-theme($primary3, $accent3, $warn3);
+
+    @include angular-material-theme($dark-grey-blue);
+    @include covalent-theme($dark-grey-blue);
+}
+.light-blue-red {
+    $primary4: mat-palette($mat-light-blue, 700);
+    $accent4:  mat-palette($mat-red, 700);
+    $warn4:    mat-palette($mat-deep-orange, 800);
+
+    $light-blue-red: mat-light-theme($primary4, $accent4, $warn4);
+
+    @include angular-material-theme($light-blue-red);
+    @include covalent-theme($light-blue-red);
+}
+
+/* ------------------------------------------------------------------------------- */
+$foreground: map-get($theme, foreground);
+$background: map-get($theme, background);
+
+// Apply theme for this app
+
+// NGX Charts
+[ngx-charts-axis-label] text {
+    fill: mat-color($foreground, secondary-text);
+}
+.tick text {
+    fill: mat-color($foreground, disabled);
+}
+.gridline-path {
+    &.gridline-path-horizontal,
+    &.gridline-path-vertical {
+        stroke: rgba(black, 0.06);
+    }
+}
+.legend-title-text {
+    color: mat-color($foreground, secondary-text);
+}
+ngx-charts-line-chart,
+ngx-charts-area-chart,
+ngx-charts-area-chart-stacked {
+    .gridline-path {
+        &.gridline-path-vertical {
+            display: none;
+        }
+    }
+}
+ngx-charts-line-chart {
+    .line-series {
+        .line {
+            stroke-width: 2;
+        }
+    }
+}
+
+
+.nav-sidebar {
+    color: #fff;
+    background-color: #030216;
+    padding: 2em 1em;
+    &.ng-sidebar--opened.ng-sidebar--over {
+        box-shadow: 0 0 2.5em rgba(85, 85, 85, 0.5);
+      }
+  }
+
+.img-custom {
+    border:solid 2px;
+    border-bottom-color:#ffe;
+    border-left-color:#eed;
+    border-right-color:#eed;
+    border-top-color:#ccb;
+    max-height:100%;
+    max-width:100%;
+    text-align:center;
+  }
+
+.frame {
+    background-color:#ddc;
+    border:solid 5vmin #eee;
+    border-bottom-color:#fff;
+    border-left-color:#eee;
+    border-radius:2px;
+    border-right-color:#eee;
+    border-top-color:#ddd;
+    box-shadow:0 0 5px 0 rgba(0,0,0,.25) inset, 0 5px 10px 5px rgba(0,0,0,.25);
+    box-sizing:border-box;
+    display:inline-block;
+    margin:10vh 10vw;
+    height:20vh;
+    width:20vw;
+    padding:1vmin;
+    position:relative;
+    text-align:center;
+    &:before {
+      border-radius:2px;
+      bottom:-2vmin;
+      box-shadow:0 2px 5px 0 rgba(0,0,0,.25) inset;
+      content:"";
+      left:-2vmin;
+      position:absolute;
+      right:-2vmin;
+      top:-2vmin;
+    }
+    &:after {
+      border-radius:2px;
+      bottom:-2.5vmin;
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,.25);
+      content:"";
+      left:-2.5vmin;
+      position:absolute;
+      right:-2.5vmin;
+      top:-2.5vmin;
+    }
+  }
+
+
+
+

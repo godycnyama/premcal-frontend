@@ -24,7 +24,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss"
+
             ],
             "scripts": []
           },
@@ -86,7 +88,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/hammerjs/hammer.min.js"
+            ]
           }
         },
         "lint": {

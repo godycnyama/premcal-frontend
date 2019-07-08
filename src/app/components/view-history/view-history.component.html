@@ -1,0 +1,157 @@
+<div>
+  <mat-card layout="column" >
+    <mat-card-content>
+        <div class="pad-xs">
+            <br>
+            <button mat-raised-button color="primary" (click) = "navigateToCalculatePremium()"><mat-icon>add</mat-icon> Calculate Premium</button>
+            <br>
+            <h3 matLine>Premium Calculations History</h3>
+            <div class="border"></div>
+            <br>
+        </div>
+        <form [formGroup]="formGroup"   class="pad-xs" layout="column">
+              <div layout-gt-xs="row">
+                      <mat-form-field flex-gt-xs="25" flex-xs="100">
+                          <mat-select id = "searchBy" name="searchBy" placeholder="Search By" [formControl] = "formGroup.controls.searchBy">
+                            <mat-option *ngFor="let searchBy of searchByOptions" [value]="searchBy">{{searchBy}}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                      <div flex-offset-gt-xs="5" style="margin-top:15px">
+                          <button mat-raised-button color="primary" (click) = "search()"><mat-icon>search</mat-icon> Search</button>
+                      </div>
+              </div>
+              <td-paging-bar #pagingBar [pageSize]="formGroup.controls.pageSize.value" [initialPage]="currentPage" [total]="total" [firstLast]="false" (change)="page($event)" *ngIf="calculations.length > 0">
+                <span hide-xs>Display:</span>
+                <mat-select [style.width.px]="50" [formControl]="formGroup.controls.pageSize">
+                  <mat-option *ngFor="let size of pageSizeOptions" [value]="size">
+                    {{size}}
+                  </mat-option>
+                </mat-select>
+                {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+              </td-paging-bar>
+         </form>
+
+         <mat-card hide-xs>
+          <div style="margin:30px">
+             <br>
+             <table td-data-table>
+              <thead>
+                <tr td-data-table-column-row>
+                  <th td-data-table-column
+                      *ngFor="let column of columns"
+                      [numeric]="column.numeric">
+                    {{column.label}}
+                  </th>
+                  <th td-data-table-column>
+                      <span>Insured Value (R)</span>
+                  </th>
+                  <th td-data-table-column>
+                      <span>Policy Fee (R)</span>
+                  </th>
+                  <th td-data-table-column>
+                      <span>Premium (R)</span>
+                  </th>
+                  <th td-data-table-column>
+                      <span>Total (R)</span>
+                  </th>
+                  <th td-data-table-column>
+                      <span>Created On</span>
+                  </th>
+                  <th td-data-table-column>
+                    <span>Actions</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr td-data-table-row *ngFor="let row of calculations">
+                  <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric">
+                    {{column.format ? column.format(row[column.name]) : row[column.name]}}
+                  </td>
+                  <td td-data-table-cell >
+                      R{{row.insuredValue | number: '.2-2'}}
+                  </td>
+                  <td td-data-table-cell >
+                      R{{row.fee | number: '.2-2'}}
+                  </td>
+                  <td td-data-table-cell >
+                      R{{row.premium | number: '.2-2'}}
+                  </td>
+                  <td td-data-table-cell >
+                      R{{row.total | number: '.2-2'}}
+                  </td>
+                  <td td-data-table-cell >
+                      {{row.createdOn | date :  date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td td-data-table-cell >
+                    <button mat-icon-button color="primary" matTooltip="Delete calculation" (click)="deleteCalculation(row)" ><mat-icon>delete</mat-icon></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <br>
+       </mat-card>
+       <div *ngFor="let calculation of calculations" show-xs hide-gt-xs>
+        <mat-card flex-gt-md="60" flex-md="70" flex-sm="90" flex-xs="100" >
+            <div style="margin:30px">
+                    <br>
+                    <br>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>CalculationID:</strong></div>
+                        <div flex="70" flex-offset="5">{{calculation._id}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Member Name:</strong></div>
+                        <div flex="70" flex-offset="5">{{calculation.memberName}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Member ID Number:</strong></div>
+                        <div flex="70" flex-offset="5">{{calculation.memberID}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Member Type:</strong></div>
+                        <div flex="70" flex-offset="5">{{calculation.memberType}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Insured Value (R):</strong></div>
+                        <div flex="70" flex-offset="5">R{{calculation.insuredValue | number: '.2-2'}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Policy Fee (R):</strong></div>
+                        <div flex="70" flex-offset="5">R{{calculation.fee | number: '.2-2'}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Premium (R):</strong></div>
+                        <div flex="70" flex-offset="5">R{{calculation.premium | number: '.2-2'}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Total (R):</strong></div>
+                        <div flex="70" flex-offset="5">R{{calculation.total | number: '.2-2'}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div layout-gt-xs="row">
+                        <div flex="30"><strong>Created On:</strong></div>
+                        <div flex="70" flex-offset="5">{{calculation.createdOn | date :  date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="pad-top-sm" show-xs></div>
+                    <div class="text-center">
+                          <button mat-icon-button color="primary" matTooltip="Delete calculation" (click)="deleteCalculation(calculation)" ><mat-icon>delete</mat-icon></button>
+                    </div>
+            </div>
+            <br>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+

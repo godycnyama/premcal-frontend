@@ -1,0 +1,65 @@
+<div>
+  <mat-card flex-gt-md="60" flex-md="70" flex-sm="90" flex-xs="100" >
+          <div class="pad-xs">
+            <br>
+            <button mat-raised-button color="primary" (click) = "navigateToViewHistory()"><mat-icon>list</mat-icon> View History</button>
+            <br>
+            <h3 matLine>Calculate Premium</h3>
+          </div>
+          <div class="border"></div>
+          <form [formGroup]="premiumGroup" (ngSubmit) = "calculatePremium()" class="pad-xs" layout="column" novalidate>
+              <mat-form-field>
+                  <input id = "memberName" name="memberName" matInput placeholder="Member Name" [formControl] = "premiumGroup.controls.memberName">
+                  <mat-error *ngIf="premiumGroup.controls['memberName'].errors?.required">Member name is required</mat-error>
+                  <mat-error *ngIf="premiumGroup.controls['memberName'].errors?.maxLength && !premiumGroup.controls['memberName'].errors?.required">Member name must not exceed 150 characters</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                  <input id = "memberID" name="memberID" matInput placeholder="Member ID Number" [formControl] = "premiumGroup.controls.memberID">
+                  <mat-error *ngIf="premiumGroup.controls['memberID'].errors?.required">Member id number is required</mat-error>
+                  <mat-error *ngIf="premiumGroup.controls['memberID'].errors?.maxLength && !premiumGroup.controls['memberID'].errors?.required">Member id number must not exceed 13 characters</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-select id = "memberType" name="memberType" placeholder="Member Type" [formControl] = "premiumGroup.controls.memberType">
+                      <mat-option *ngFor="let type of memberTypeOptions" [value]="type">{{type}}</mat-option>
+                   </mat-select>
+                  <mat-error *ngIf="premiumGroup.controls['memberType'].errors?.required">Member type is required</mat-error>
+              </mat-form-field>
+              <mat-form-field *ngIf="premiumGroup.controls.memberType.value == 'Main Member'">
+                  <mat-select id = "insuredValueMainMember" name="insuredValueMainMember" placeholder="Insured Value (R)" [formControl] = "premiumGroup.controls.insuredValueMainMember">
+                      <mat-option *ngFor="let insuredValue of insuredValueMainMemberOptions" [value]="insuredValue">{{insuredValue | number: '.2-2'}}</mat-option>
+                   </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="premiumGroup.controls.memberType.value == 'Dependent'">
+                <mat-select id = "insuredValueDependent" name="insuredValueDependent" placeholder="Insured Value (R)" [formControl] = "premiumGroup.controls.insuredValueDependent">
+                    <mat-option *ngFor="let insuredValue of insuredValueDependentOptions" [value]="insuredValue">{{insuredValue | number: '.2-2'}}</mat-option>
+                 </mat-select>
+              </mat-form-field>
+              <br>
+              <div layout="row">
+                  <div>
+                      <button type="submit" mat-raised-button color="primary" >Calculate Premium</button>
+                  </div>
+              </div>
+          </form>
+          <br>
+          <h3 matLine>Last Premium Calculation Result</h3>
+          <div *ngIf="calculation.memberType">
+            <strong>Member Type:</strong> {{calculation.memberType}}
+          </div>
+          <div *ngIf="calculation.insuredValue">
+            <strong>Insured Value:</strong> R{{calculation.insuredValue | number: '.2-2'}}
+          </div>
+          <div *ngIf="calculation.fee">
+            <strong>Fee:</strong> R{{calculation.fee | number: '.2-2'}}
+          </div>
+          <div *ngIf="calculation.premium">
+            <strong>Premium:</strong> R{{calculation.premium | number: '.2-2'}}
+          </div>
+          <div *ngIf="calculation.total">
+            <strong>Total:</strong> R{{calculation.total | number: '.2-2'}}
+          </div>
+         <br>
+        </mat-card>
+</div>
+
+
