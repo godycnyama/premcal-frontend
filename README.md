@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
+## Description
+
+This is the front-end for an application for calculating insurance premiums given a 13 digit South African ID Number.Its based on Angular 8, Angular Material 8 and CovalentUI.
+
 ## Setup/Installation
 
 Make sure you have Node 12, Typescript 3.4+, NPM 6+ and Git installed on you computer.To install the app, run the following command: git clone https://github.com/godycnyama/premcal-frontend.git in the command line. cd to premcal-frontend root and install Node packages by running the following command: npm install.
