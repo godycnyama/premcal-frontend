@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Description
 
-This is the front-end for an application for calculating insurance premiums given a 13 digit South African ID Number.Its based on Angular 8, Angular Material 8 and CovalentUI.It communicates with a RESTFul back end based on Hapi.js v18, a node.js based framework.
+This is the front-end for an application for calculating insurance premiums given a 13 digit South African ID Number.Its based on Angular 8, Angular Material 8 and CovalentUI.It communicates with a RESTful back end based on Hapi.js v18, a node.js based framework.
 
 ## Setup/Installation
 
