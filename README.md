@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Setup/Installation
 
-Make sure you have Node v8.12, NPM 6+ and Git installed on you computer.To install the app, run the following command: git clone https://github.com/godycnyama/premcal-backend.git in the command line. cd to premcal-backend root and install Node packages by running the following command: npm install.
+Make sure you have Node 12, Typescript 3.4+, NPM 6+ and Git installed on you computer.To install the app, run the following command: git clone https://github.com/godycnyama/premcal-frontend.git in the command line. cd to premcal-frontend root and install Node packages by running the following command: npm install.
 
 ## Development server
 
